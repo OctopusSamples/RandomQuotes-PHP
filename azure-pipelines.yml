@@ -9,11 +9,15 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  phpVersion: '8.4'  
+
 steps:
-- task: shivammathur/setup-php@v2
-  inputs:
-    php-version: '8.4'
-    extensions: mbstring, intl, pdo_mysql
+- script: |
+    sudo add-apt-repository ppa:ondrej/php -y
+    sudo apt-get update
+    sudo apt-get install -y php$(phpVersion) php$(phpVersion)-cli php$(phpVersion)-mbstring php$(phpVersion)-xml php$(phpVersion)-zip php$(phpVersion)-curl php$(phpVersion)-mysql
+  displayName: 'Install PHP 8.4 and Extensions'
 
 - script: |
     composer install
