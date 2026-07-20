@@ -6,10 +6,18 @@
 trigger:
 - master
 
+variables:
+  phpVersion: '8.4' # Define target version
+
 pool:
   vmImage: ubuntu-latest
 
 steps:
+- script: |
+    sudo update-alternatives --set php /usr/bin/php$(phpVersion)
+    php -version
+  displayName: 'Use PHP version $(phpVersion)'
+
 - script: |
     composer install
     ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php ./tests/quotetest.php
