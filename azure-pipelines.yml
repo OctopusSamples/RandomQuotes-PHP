@@ -6,6 +6,17 @@
 trigger:
 - master
 
+name: $(Date:yyyy).$(Date:MM).$(Date:dd).$(Rev:r)
+
+schedules:
+- cron: "30 18 * * 1-5"
+  displayName: Weekday Nightly Build
+  branches:
+    include:
+    - main
+  always: true # Runs even if there are no new code changes
+
+
 pool:
   vmImage: ubuntu-latest
 
@@ -23,3 +34,17 @@ steps:
     composer install
     ./vendor/bin/phpunit --bootstrap ./vendor/autoload.php ./tests/quotetest.php
   displayName: 'Run composer'
+
+- task: OctopusPackZip@7
+  inputs:
+    PackageId: 'RandomQuotes.PHP.Web'
+    PackageVersion: '$(build.buildnumber)'
+    SourcePath: '$(Build.SourcesDirectory)'
+    OutputPath: '$(Build.ArtifactStagingDirectory)'
+
+- task: OctopusPush@7
+  inputs:
+    OctoConnectedServiceName: 'samples.octopus.app'
+    Space: 'Target - NGINX'
+    Packages: '$(Build.ArtifactStagingDirectory)/*.zip'
+    Replace: 'false'    
