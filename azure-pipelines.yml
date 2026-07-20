@@ -7,7 +7,7 @@ trigger:
 - master
 
 variables:
-  phpVersion: '8.4' # Define target version
+  phpVersion: '8.5' # Define target version
 
 pool:
   vmImage: ubuntu-latest
