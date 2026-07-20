@@ -11,7 +11,7 @@ pool:
 
 steps:
 - task: shivammathur/setup-php@v2
-  with:
+  inputs:
     php-version: '8.4'
     extensions: mbstring, intl, pdo_mysql
 
