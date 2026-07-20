@@ -44,7 +44,7 @@ steps:
 
 - task: OctopusPush@7
   inputs:
-    OctoConnectedServiceName: 'samples.octopus.app'
+    OctoConnectedServiceName: 'OctopusSamples'
     Space: 'Target - NGINX'
     Packages: '$(Build.ArtifactStagingDirectory)/*.zip'
     Replace: 'false'    
